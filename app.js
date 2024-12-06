@@ -1,5 +1,5 @@
-const group = [0, 1, 0];
-let output = [];
+const group = [1, 0, 1];
+let wordCollection = [];
 
 const singleDigits = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
 const twoDigits = ['ten', 'twenty', 'thirty', 'fourty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
@@ -8,10 +8,10 @@ const specialDigits = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifte
 // ACHTUNG! Haupt-Gruppen müssen von RECHTS nach LINKS eingeteilt werden
 // Hundred, thousand, million - wird erst hinzugefügt, wenn die einzelnen Gruppen erledigt sind
 
-// Fälle die noch nicht funktionieren: 500, 580, 080
+// Fälle die noch nicht funktionieren:
 
 function checkSubGroup(group) {
-    let wordCollection = [];
+    let output = [];
 
     // Wie starte ich die Wort-Ausgabe, anhängig von der Länge des
     // group-Arrays? 
@@ -70,7 +70,7 @@ function checkSubGroup(group) {
             break;
     }
 
-    console.log(output);
+    return output
 
 }
 
@@ -108,4 +108,4 @@ function getSpecialDigitWords(digit1, digit2) {
 
 }
 
-checkSubGroup(group);
+console.log(checkSubGroup(group));
