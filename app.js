@@ -15,6 +15,34 @@ const convertBtn = document.getElementById('convert');
 convertBtn.addEventListener('click', convertNumberToString);
 const groups = [];
 
+
+function convertNumberToString() {
+    const buttonConvert = document.getElementById('numberInput');
+
+    //TODO check Input for minus/plus value, check if type = number, check range
+
+    let text = buttonConvert.value.toString();
+    console.log(text.length);
+    makeGroups(text);
+    buttonConvert.value = '';
+}
+
+function makeGroups(text) {
+    let subArr = [];
+    for (let i = 0; i <= text.length; i++) {
+        if (subArr.length < 3) {
+            subArr.push(text[i]);
+        }
+
+        if ((subArr.length === 3) || i === (text.length) - 1) {
+            groups.push(Number(subArr.join('')));
+            subArr = [];
+        }
+    }
+
+    console.log(groups);
+}
+
 function checkSubGroup(group) {
     let output = [];
 
