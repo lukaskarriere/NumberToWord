@@ -1,4 +1,4 @@
-const group = [5, 0, 8];
+const group = [0, 1, 0];
 let output = [];
 
 const singleDigits = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
@@ -8,15 +8,17 @@ const specialDigits = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifte
 // ACHTUNG! Haupt-Gruppen müssen von RECHTS nach LINKS eingeteilt werden
 // Hundred, thousand, million - wird erst hinzugefügt, wenn die einzelnen Gruppen erledigt sind
 
+// Fälle die noch nicht funktionieren: 500, 580, 080
 
 function checkSubGroup(group) {
     let wordCollection = [];
-    // Check length of Array
+
     // Wie starte ich die Wort-Ausgabe, anhängig von der Länge des
     // group-Arrays? 
     // LÖSUNG: Array-Länge abfragen, abhängig davon hunderter/10er-Prüfung weglassen
 
 
+    // Check length of Array
     let arraylength = group.length;
 
     // Write words to array - depending on the number of digits
@@ -42,9 +44,18 @@ function checkSubGroup(group) {
         // 3 digits Case
         default:
             console.log('Full Set available');
+
+            // 1 digit zero
             if (group[0] === 0) {
-                // Hier ist eine 0 am Anfang möglich, kann aber unbeachtet bleiben.
+                // Add word for following digits
+                if (group[1] === 1) {
+                    output.push(getSpecialDigitWords(group[1], group[2]));
+                } else {
+                    if (group[1] !== 0) output.push(twoDigits[group[1] - 1]);
+                    if (group[2] !== 0) output.push(singleDigits[group[2]]);
+                }
             }
+            // 1 digit > zero
             else if (group[0] >= 1) {
                 output.push(singleDigits[group[0]]);
                 output.push('hundred');
@@ -52,8 +63,8 @@ function checkSubGroup(group) {
                 if (group[1] === 1) {
                     output.push(getSpecialDigitWords(group[1], group[2]));
                 } else {
-                    output.push(twoDigits[group[1] - 1]);
-                    output.push(singleDigits[group[2]]);
+                    if (group[1] !== 0) output.push(twoDigits[group[1] - 1]);
+                    if (group[2] !== 0) output.push(singleDigits[group[2]]);
                 }
             }
             break;
