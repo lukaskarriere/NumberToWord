@@ -10,6 +10,11 @@ const specialDigits = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifte
 
 // Fälle die noch nicht funktionieren:
 
+// Get Input
+const convertBtn = document.getElementById('convert');
+convertBtn.addEventListener('click', convertNumberToString);
+const groups = [];
+
 function checkSubGroup(group) {
     let output = [];
 
