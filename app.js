@@ -1,4 +1,4 @@
-const group = [2, 5];
+const group = [5, 0, 8];
 let output = [];
 
 const singleDigits = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
@@ -21,10 +21,12 @@ function checkSubGroup(group) {
 
     // Write words to array - depending on the number of digits
     switch (arraylength) {
+        // 1 digits Case
         case 1:
             console.log('1 digit available');
             output.push(singleDigits[group[0]]);
             break;
+        // 2 digits Case
         case 2:
             console.log('2 digit available');
             if (group[0] === 0) {
@@ -37,8 +39,23 @@ function checkSubGroup(group) {
                 output.push(singleDigits[group[1]]);
             }
             break;
+        // 3 digits Case
         default:
             console.log('Full Set available');
+            if (group[0] === 0) {
+                // Hier ist eine 0 am Anfang möglich, kann aber unbeachtet bleiben.
+            }
+            else if (group[0] >= 1) {
+                output.push(singleDigits[group[0]]);
+                output.push('hundred');
+
+                if (group[1] === 1) {
+                    output.push(getSpecialDigitWords(group[1], group[2]));
+                } else {
+                    output.push(twoDigits[group[1] - 1]);
+                    output.push(singleDigits[group[2]]);
+                }
+            }
             break;
     }
 
@@ -52,32 +69,32 @@ function getSpecialDigitWords(digit1, digit2) {
 
     switch (wholeNumber) {
         case 10:
-            return specialDigits[0]        
+            return specialDigits[0]
         case 11:
-            return specialDigits[1]        
+            return specialDigits[1]
         case 12:
-            return specialDigits[2]        
+            return specialDigits[2]
         case 13:
-            return specialDigits[3]        
+            return specialDigits[3]
         case 14:
-            return specialDigits[4]        
+            return specialDigits[4]
         case 15:
-            return specialDigits[5]        
+            return specialDigits[5]
         case 16:
-            return specialDigits[6]        
+            return specialDigits[6]
         case 17:
-            return specialDigits[7]        
+            return specialDigits[7]
         case 18:
-            return specialDigits[8]        
+            return specialDigits[8]
         case 19:
-            return specialDigits[9]        
-    
+            return specialDigits[9]
+
         default:
             break;
     }
 
 
-    
+
 }
 
 checkSubGroup(group);
