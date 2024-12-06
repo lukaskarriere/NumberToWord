@@ -29,18 +29,27 @@ function convertNumberToString() {
 
 function makeGroups(text) {
     let subArr = [];
-    for (let i = 0; i <= text.length; i++) {
+
+    console.log(text);
+    for (let i = text.length; i >= 0; i--) {
+        // Add digits to subarray
         if (subArr.length < 3) {
-            subArr.push(text[i]);
+            subArr.unshift(text[i]);
         }
 
+        // Add subarray to groupsarray
         if ((subArr.length === 3) || i === (text.length) - 1) {
-            groups.push(Number(subArr.join('')));
+            groups.unshift([Number(subArr.join(''))]);
             subArr = [];
         }
     }
 
+
+    console.log('--------------------------------------------------');
+    
     console.log(groups);
+
+    console.log('--------------------------------------------------');
 }
 
 function checkSubGroup(group) {
@@ -142,3 +151,7 @@ function getSpecialDigitWords(digit1, digit2) {
 }
 
 console.log(checkSubGroup(group));
+
+
+
+// Musste unshift verwenden, damit die Einträge vor eingefügt und von links nach recht in dreier Gruppen unterteil werden.
