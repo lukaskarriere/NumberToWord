@@ -1,5 +1,13 @@
-const group = [1,8,7];
-let output = "";
+const group = [2, 5];
+let output = [];
+
+const singleDigits = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+const twoDigits = ['ten', 'twenty', 'thirty', 'fourty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+const specialDigits = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+
+// ACHTUNG! Haupt-Gruppen müssen von RECHTS nach LINKS eingeteilt werden
+// Hundred, thousand, million - wird erst hinzugefügt, wenn die einzelnen Gruppen erledigt sind
+
 
 function checkSubGroup(group) {
     let wordCollection = [];
@@ -7,29 +15,69 @@ function checkSubGroup(group) {
     // Wie starte ich die Wort-Ausgabe, anhängig von der Länge des
     // group-Arrays? 
     // LÖSUNG: Array-Länge abfragen, abhängig davon hunderter/10er-Prüfung weglassen
-    let arraylength = group.length;
-   
 
+
+    let arraylength = group.length;
+
+    // Write words to array - depending on the number of digits
     switch (arraylength) {
         case 1:
-            console.log('1 digit available');       
+            console.log('1 digit available');
+            output.push(singleDigits[group[0]]);
             break;
         case 2:
             console.log('2 digit available');
+            if (group[0] === 0) {
+                console.error('The first digit must not be zero');
+            }
+            else if (group[0] === 1) {
+                output.push(getSpecialDigitWords(group[0], group[1]));
+            } else {
+                output.push(twoDigits[group[0] - 1]);
+                output.push(singleDigits[group[1]]);
+            }
             break;
         default:
             console.log('Full Set available');
             break;
     }
 
-
-    // Check first digit
+    console.log(output);
 
 }
 
-function appendToWord(word) {
-    output += `${output} ${word}`;
-}
+// Returns the word for Numbers between 10 -19
+function getSpecialDigitWords(digit1, digit2) {
+    let wholeNumber = Number(`${digit1}${digit2}`);
 
+    switch (wholeNumber) {
+        case 10:
+            return specialDigits[0]        
+        case 11:
+            return specialDigits[1]        
+        case 12:
+            return specialDigits[2]        
+        case 13:
+            return specialDigits[3]        
+        case 14:
+            return specialDigits[4]        
+        case 15:
+            return specialDigits[5]        
+        case 16:
+            return specialDigits[6]        
+        case 17:
+            return specialDigits[7]        
+        case 18:
+            return specialDigits[8]        
+        case 19:
+            return specialDigits[9]        
+    
+        default:
+            break;
+    }
+
+
+    
+}
 
 checkSubGroup(group);
