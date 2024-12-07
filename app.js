@@ -1,15 +1,17 @@
-const group = [1, 0, 1];
 let wordCollection = [];
 
 const singleDigits = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
 const twoDigits = ['ten', 'twenty', 'thirty', 'fourty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
 const specialDigits = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+const digitGrouping = ['thousand', 'million', 'billion']; // milliard = billion(englisch)
 
 // ACHTUNG! Haupt-Gruppen müssen von RECHTS nach LINKS eingeteilt werden
 // Hundred, thousand, million - wird erst hinzugefügt, wenn die einzelnen Gruppen erledigt sind
 
 // Fälle die noch nicht funktionieren: 
 // erledigte Fälle: 505, 580, 005
+
+//TODO reset groups after converting
 
 // Get Input
 const convertBtn = document.getElementById('convert');
@@ -22,15 +24,21 @@ function convertNumberToString() {
 
     //TODO check Input for minus/plus value, check if type = number, check range
 
+    // Convert value to string - Preparation to make groups
     let text = buttonConvert.value.toString();
-    makeGroups('156');
+    // Make groups of 3
+    makeGroups('5123');
+    // Reset User Input
     buttonConvert.value = '';
-    console.log(checkSubGroup(groups[0]));
+    // Convert all numbers to words
+    convertGroupsToWords(groups);
+    
 }
 
+// Seprate 1-3 digits in groups
+// Trying to make groups of 3
+// Add them to groups array
 function makeGroups(text) {
-
-    // Testfall 1,2,3,4
 
     let subArr = [];
     const lastIndex = text.length - 1;
@@ -41,6 +49,7 @@ function makeGroups(text) {
             subArr.unshift(Number(text[i]));
         }
 
+        // Add Sub array to group array
         if (subArr.length === 3 || i === 0) {
             groups.unshift(subArr);
             subArr = [];
@@ -49,16 +58,12 @@ function makeGroups(text) {
 
     // Hat lange gedauert: Ich wollte die Zähl-Schleife auf decrement abändern und hab lange nach Fehlern gesucht, anstatt es einfach neu zu bauen.
     
+    console.log(`Gruppen:`);
     console.log('--------------------------------------------------');
-
     console.log(groups);
-
     console.log('--------------------------------------------------');
 
 }
-
-
-convertNumberToString();
 
 // Returns a collection of words for a subgroup of numbers
 function checkSubGroup(group) {
@@ -159,7 +164,25 @@ function getSpecialDigitWords(digit1, digit2) {
 
 }
 
+// Convert all numbers to words
+function convertGroupsToWords(groups) {
+
+    for (const entry of groups) {
+        wordCollection.push(
+            checkSubGroup(entry)
+        );
+    }
+              
+
+    debugger;
+
+    console.log(`WordCollection:`);
+    console.log('--------------------------------------------------');
+    console.log(wordCollection);
+    console.log('--------------------------------------------------');
+}
 
 
+convertNumberToString();
 
 // Musste unshift verwenden, damit die Einträge vor eingefügt und von links nach recht in dreier Gruppen unterteil werden.
