@@ -8,7 +8,8 @@ const specialDigits = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifte
 // ACHTUNG! Haupt-Gruppen müssen von RECHTS nach LINKS eingeteilt werden
 // Hundred, thousand, million - wird erst hinzugefügt, wenn die einzelnen Gruppen erledigt sind
 
-// Fälle die noch nicht funktionieren:
+// Fälle die noch nicht funktionieren: 
+// erledigte Fälle: 505, 580, 005
 
 // Get Input
 const convertBtn = document.getElementById('convert');
@@ -22,36 +23,44 @@ function convertNumberToString() {
     //TODO check Input for minus/plus value, check if type = number, check range
 
     let text = buttonConvert.value.toString();
-    console.log(text.length);
-    makeGroups(text);
+    makeGroups('156');
     buttonConvert.value = '';
+    console.log(checkSubGroup(groups[0]));
 }
 
 function makeGroups(text) {
-    let subArr = [];
 
-    console.log(text);
-    for (let i = text.length; i >= 0; i--) {
-        // Add digits to subarray
+    // Testfall 1,2,3,4
+
+    let subArr = [];
+    const lastIndex = text.length - 1;
+
+    for (let i = lastIndex; i >= 0; i--) {
+        //Add digits to subarray as numbers
         if (subArr.length < 3) {
-            subArr.unshift(text[i]);
+            subArr.unshift(Number(text[i]));
         }
 
-        // Add subarray to groupsarray
-        if ((subArr.length === 3) || i === (text.length) - 1) {
-            groups.unshift([Number(subArr.join(''))]);
+        if (subArr.length === 3 || i === 0) {
+            groups.unshift(subArr);
             subArr = [];
         }
     }
 
-
-    console.log('--------------------------------------------------');
+    // Hat lange gedauert: Ich wollte die Zähl-Schleife auf decrement abändern und hab lange nach Fehlern gesucht, anstatt es einfach neu zu bauen.
     
+    console.log('--------------------------------------------------');
+
     console.log(groups);
 
     console.log('--------------------------------------------------');
+
 }
 
+
+convertNumberToString();
+
+// Returns a collection of words for a subgroup of numbers
 function checkSubGroup(group) {
     let output = [];
 
@@ -150,7 +159,6 @@ function getSpecialDigitWords(digit1, digit2) {
 
 }
 
-console.log(checkSubGroup(group));
 
 
 
