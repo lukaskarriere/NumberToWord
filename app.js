@@ -8,7 +8,7 @@ const digitGrouping = ['billion', 'million', 'thousand']; // milliard = billion(
 // ACHTUNG! Haupt-Gruppen müssen von RECHTS nach LINKS eingeteilt werden
 // Hundred, thousand, million - wird erst hinzugefügt, wenn die einzelnen Gruppen erledigt sind
 
-// Fälle die noch nicht funktionieren: 9, 90, 901
+// Fälle die noch nicht funktionieren: 30
 // erledigte Fälle: 505, 580, 005
 
 //TODO reset groups after converting
@@ -16,23 +16,42 @@ const digitGrouping = ['billion', 'million', 'thousand']; // milliard = billion(
 // Get Input
 const convertBtn = document.getElementById('convert');
 convertBtn.addEventListener('click', convertNumberToString);
-const groups = [];
+let groups = [];
 
 
 function convertNumberToString() {
-    const buttonConvert = document.getElementById('numberInput');
+    // Get input value
+    const inputValue = document.getElementById('numberInput');
+    let text = inputValue.value;
+    let number = Number(text);
+    const minValue = -1000000000;
+    const maxValue = 1000000000;
+    let positive = true;
 
-    //TODO check Input for minus/plus value, check if type = number, check range
+    // Check for invalid input
+    if(number > maxValue || number < minValue || text === '') {
+        console.error('Enter number between -1 and 1 billion');
+        alert('Enter number between -1 and 1 billion');
+        return;
+    }
+    // Check positiv and negativ input
+    if(number < 0) {
+        positive = false;
+        number = number * -1;
+        text = number.toString();
+    }
 
-    // Convert value to string - Preparation to make groups
-    let text = buttonConvert.value.toString();
     // Make groups of 3
-    makeGroups('1279000');
+    makeGroups(text);
     // Reset User Input
-    buttonConvert.value = '';
+    inputValue.value = '';
     // Convert all numbers to words
     convertGroupsToWords(groups);
-    printWordcollection(wordCollection);
+    printWordcollection(wordCollection, positive);
+
+    // Reset global variables
+    groups = [];
+    wordCollection = [];
 
 }
 
@@ -58,12 +77,6 @@ function makeGroups(text) {
     }
 
     // Hat lange gedauert: Ich wollte die Zähl-Schleife auf decrement abändern und hab lange nach Fehlern gesucht, anstatt es einfach neu zu bauen.
-
-    console.log(`Gruppen:`);
-    console.log('--------------------------------------------------');
-    console.log(groups);
-    console.log('--------------------------------------------------');
-
 }
 
 // Returns a collection of words for a subgroup of numbers
@@ -82,12 +95,10 @@ function checkSubGroup(group) {
     switch (arraylength) {
         // 1 digits Case
         case 1:
-            console.log('1 digit available');
             output.push(singleDigits[group[0]]);
             break;
         // 2 digits Case
         case 2:
-            console.log('2 digit available');
             if (group[0] === 0) {
                 console.error('The first digit must not be zero');
             }
@@ -95,13 +106,11 @@ function checkSubGroup(group) {
                 output.push(getSpecialDigitWords(group[0], group[1]));
             } else {
                 output.push(twoDigits[group[0] - 1]);
-                output.push(singleDigits[group[1]]);
+                if(group[1] !== 0) output.push(singleDigits[group[1]]);
             }
             break;
         // 3 digits Case
         default:
-            console.log('Full Set available');
-
             // 1 digit zero
             if (group[0] === 0) {
                 // Add word for following digits
@@ -199,13 +208,12 @@ function convertGroupsToWords(groups) {
                 break;
         }
 
-    console.log(`WordCollection set`);
-
 }
 
 // Prints out the actual number in words
-function printWordcollection(wordCollection) {
+function printWordcollection(wordCollection, positive) {
     let outputString = '';
+    const wordlist = document.querySelector('.wordBox ol');
     
     for (const word of wordCollection) {
         outputString += ' ' + word;    
@@ -213,11 +221,17 @@ function printWordcollection(wordCollection) {
 
     outputString = outputString.replaceAll(',', ' ');
 
-    console.log(outputString);
+    // Add minus for negative numbers
+    if(positive === false) outputString = 'minus ' + outputString;
+
+    // Append new word to list
+    let newWord = document.createElement('li');
+    newWord.textContent = outputString;
+    wordlist.append(newWord);
 }
 
 
-convertNumberToString();
+// convertNumberToString();
 
 // Musste unshift verwenden, damit die Einträge vor eingefügt und von links nach recht in dreier Gruppen unterteil werden.
 // Die Erstellung der Nummern-Gruppen und das "Drucken" der einzelnen Wörter habe ich getrennt erstellt. Beim Verbinden dieser Blöcke hatte ich Schwierigkeiten.
