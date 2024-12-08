@@ -27,7 +27,7 @@ function convertNumberToString() {
     // Convert value to string - Preparation to make groups
     let text = buttonConvert.value.toString();
     // Make groups of 3
-    makeGroups('10102');
+    makeGroups('1279000');
     // Reset User Input
     buttonConvert.value = '';
     // Convert all numbers to words
@@ -206,10 +206,12 @@ function convertGroupsToWords(groups) {
 // Prints out the actual number in words
 function printWordcollection(wordCollection) {
     let outputString = '';
-
+    
     for (const word of wordCollection) {
         outputString += ' ' + word;    
     }
+
+    outputString = outputString.replaceAll(',', ' ');
 
     console.log(outputString);
 }
