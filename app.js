@@ -8,12 +8,10 @@ const digitGrouping = ['billion', 'million', 'thousand']; // milliard = billion(
 // ACHTUNG! Haupt-Gruppen müssen von RECHTS nach LINKS eingeteilt werden
 // Hundred, thousand, million - wird erst hinzugefügt, wenn die einzelnen Gruppen erledigt sind
 
-// Fälle die noch nicht funktionieren: 30
-// erledigte Fälle: 505, 580, 005
+// Fälle die noch nicht funktionieren:  500000000
+// erledigte Fälle: 505, 580, 005, 30, 1000000000, -1000000000
 
-//TODO reset groups after converting
-
-// Get Input
+// Get Input from User
 const convertBtn = document.getElementById('convert');
 convertBtn.addEventListener('click', convertNumberToString);
 let groups = [];
@@ -75,7 +73,6 @@ function makeGroups(text) {
             subArr = [];
         }
     }
-
     // Hat lange gedauert: Ich wollte die Zähl-Schleife auf decrement abändern und hab lange nach Fehlern gesucht, anstatt es einfach neu zu bauen.
 }
 
@@ -86,7 +83,6 @@ function checkSubGroup(group) {
     // Wie starte ich die Wort-Ausgabe, anhängig von der Länge des
     // group-Arrays? 
     // LÖSUNG: Array-Länge abfragen, abhängig davon hunderter/10er-Prüfung weglassen
-
 
     // Check length of Array
     let arraylength = group.length;
@@ -135,7 +131,7 @@ function checkSubGroup(group) {
             }
             break;
     }
-
+    
     return output
 
 }
@@ -174,9 +170,10 @@ function getSpecialDigitWords(digit1, digit2) {
 
 }
 
-// Convert all numbers to words
+// Build words from subgroups
 function convertGroupsToWords(groups) {
-
+        // Add fitting words to wordCollection.
+        // Add digit grouping number if necessary, relative to length of groups array.
         switch (groups.length) {
             case 1:
                 wordCollection.push(
@@ -202,6 +199,11 @@ function convertGroupsToWords(groups) {
                     checkSubGroup(groups[2])
                 );
                 break;
+            case 4:
+                wordCollection.push(
+                    checkSubGroup(groups[0]) + ' ' + digitGrouping[0]
+                );
+                break;
 
             default:
                 // TODO: throw error
@@ -219,7 +221,9 @@ function printWordcollection(wordCollection, positive) {
         outputString += ' ' + word;    
     }
 
+    // "Dirty fix" - Remove unnecessary "thousand"
     outputString = outputString.replaceAll(',', ' ');
+    outputString = outputString.replace('  thousand', '');
 
     // Add minus for negative numbers
     if(positive === false) outputString = 'minus ' + outputString;
@@ -237,3 +241,4 @@ function printWordcollection(wordCollection, positive) {
 // Die Erstellung der Nummern-Gruppen und das "Drucken" der einzelnen Wörter habe ich getrennt erstellt. Beim Verbinden dieser Blöcke hatte ich Schwierigkeiten.
 // Wie stelle ich in "convertGroupsToWords" fest, welche "digitGrouping" ich brauche?
 // arraylength = group.length; checkSubGroup ERROR: group is undefined. Solved -> changed case 1 to checkSubGroup(groups[0]) in convertGroupsToWords
+// Bei Millionenbeträgen ohne tausender wie z.b. 500000000 wird ein unnötiges "thousand" angestellt.
