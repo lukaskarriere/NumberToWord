@@ -3,12 +3,12 @@ let wordCollection = [];
 const singleDigits = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
 const twoDigits = ['ten', 'twenty', 'thirty', 'fourty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
 const specialDigits = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
-const digitGrouping = ['thousand', 'million', 'billion']; // milliard = billion(englisch)
+const digitGrouping = ['billion', 'million', 'thousand']; // milliard = billion(englisch)
 
 // ACHTUNG! Haupt-Gruppen müssen von RECHTS nach LINKS eingeteilt werden
 // Hundred, thousand, million - wird erst hinzugefügt, wenn die einzelnen Gruppen erledigt sind
 
-// Fälle die noch nicht funktionieren: 
+// Fälle die noch nicht funktionieren: 9, 90, 901
 // erledigte Fälle: 505, 580, 005
 
 //TODO reset groups after converting
@@ -27,12 +27,13 @@ function convertNumberToString() {
     // Convert value to string - Preparation to make groups
     let text = buttonConvert.value.toString();
     // Make groups of 3
-    makeGroups('5123');
+    makeGroups('10102');
     // Reset User Input
     buttonConvert.value = '';
     // Convert all numbers to words
     convertGroupsToWords(groups);
-    
+    printWordcollection(wordCollection);
+
 }
 
 // Seprate 1-3 digits in groups
@@ -57,7 +58,7 @@ function makeGroups(text) {
     }
 
     // Hat lange gedauert: Ich wollte die Zähl-Schleife auf decrement abändern und hab lange nach Fehlern gesucht, anstatt es einfach neu zu bauen.
-    
+
     console.log(`Gruppen:`);
     console.log('--------------------------------------------------');
     console.log(groups);
@@ -167,22 +168,56 @@ function getSpecialDigitWords(digit1, digit2) {
 // Convert all numbers to words
 function convertGroupsToWords(groups) {
 
-    for (const entry of groups) {
-        wordCollection.push(
-            checkSubGroup(entry)
-        );
+        switch (groups.length) {
+            case 1:
+                wordCollection.push(
+                    checkSubGroup(groups[0])
+                );
+                break;
+            case 2:
+                wordCollection.push(
+                    checkSubGroup(groups[0]) + ' ' + digitGrouping[2]
+                );
+                wordCollection.push(
+                    checkSubGroup(groups[1])
+                );
+                break;
+            case 3:
+                wordCollection.push(
+                    checkSubGroup(groups[0]) + ' ' + digitGrouping[1]
+                );
+                wordCollection.push(
+                    checkSubGroup(groups[1]) + ' ' + digitGrouping[2]
+                );
+                wordCollection.push(
+                    checkSubGroup(groups[2])
+                );
+                break;
+
+            default:
+                // TODO: throw error
+                break;
+        }
+
+    console.log(`WordCollection set`);
+
+}
+
+// Prints out the actual number in words
+function printWordcollection(wordCollection) {
+    let outputString = '';
+
+    for (const word of wordCollection) {
+        outputString += ' ' + word;    
     }
-              
 
-    debugger;
-
-    console.log(`WordCollection:`);
-    console.log('--------------------------------------------------');
-    console.log(wordCollection);
-    console.log('--------------------------------------------------');
+    console.log(outputString);
 }
 
 
 convertNumberToString();
 
 // Musste unshift verwenden, damit die Einträge vor eingefügt und von links nach recht in dreier Gruppen unterteil werden.
+// Die Erstellung der Nummern-Gruppen und das "Drucken" der einzelnen Wörter habe ich getrennt erstellt. Beim Verbinden dieser Blöcke hatte ich Schwierigkeiten.
+// Wie stelle ich in "convertGroupsToWords" fest, welche "digitGrouping" ich brauche?
+// arraylength = group.length; checkSubGroup ERROR: group is undefined. Solved -> changed case 1 to checkSubGroup(groups[0]) in convertGroupsToWords
