@@ -1,0 +1,15 @@
+Cleaned Code; Added Note Pictures; Added Notes
+Fix: Bei Millionenbeträgen ohne tausender wie z.b. 500000000 wird ein unnötiges thousand angestellt.
+added negative number functionality and solved thirty zero error
+removed ',' character from Output
+ERROR: group is undefined. Solved -> changed case 1 to checkSubGroup(groups[0]) in convertGroupsToWords
+added function convertGroupsToWords - creats words for all groups- TODO: add digitGrouping to the words
+adapted logic to create subgroups (decrement for-loop)
+Split up the entered number from left to right - changed for-loop to decrement and use unshift instead of push
+creating groups functionality
+get data from user-Input
+checkSubGroup now returns an Array
+Added functionality for 500, 580, 080
+improved third digit implementation
+Implementen cases for 1, 2 or 3 Digits
+inital commit
