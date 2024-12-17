@@ -13,7 +13,7 @@ let groups = [];
 
 
 function convertNumberToString() {
-    // Get input value
+    // Get input value    
     const inputValue = document.getElementById('numberInput');
     let text = inputValue.value;
     let number = Number(text);
@@ -27,7 +27,7 @@ function convertNumberToString() {
         alert('Enter number between -1 and 1 billion');
         return;
     }
-    // Check positiv and negativ input
+    // Check for negativ input
     if(number < 0) {
         positive = false;
         number = number * -1;

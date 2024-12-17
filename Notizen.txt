@@ -18,3 +18,23 @@ General:
 // Wie stelle ich in "convertGroupsToWords" fest, welche "digitGrouping" ich brauche?
 // arraylength = group.length; convertSubGroup ERROR: group is undefined. Solved -> changed case 1 to convertSubGroup(groups[0]) in convertGroupsToWords
 // Bei Millionenbeträgen ohne tausender wie z.b. 500000000 wird ein unnötiges "thousand" angestellt.
+
+
+Die Zähl-Schleife in Make-Groups() auf Decrement ändern. Wäre leichter gewesen, wenn ich die Schleife neu erstellt hätte.
+Die Reihenfolge beim Erstellen der Gruppen von Rechts nach Links geändert. Damit unvollständige Gruppen möglichst bei den größeren Stellen wie thousand und million sind.
+
+
+
+
+
+
+
+
+JS-Kurs:
+
+Muss "this" in node.js auch stabilisiert werden?
+wird "use-strict" in der Praxis verwendet? 
+Template string tags?
+warum ist NaN !== NaN
+Immediate Invoked Function (IIFE) - Geschützter Gültigkeitsbereich, vermeiden von Globalen Variablen, UseCase?
+Closures - Wenn innherhalb einer Funktion eine Funktion zurückgegeben wird, kann in der inneren Funktion auf den äußeren Gültigkeitsbereich zugegriffen?
