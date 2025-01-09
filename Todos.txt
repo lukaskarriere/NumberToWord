@@ -1,0 +1,29 @@
+Fragen
+------------------------------
+Wo müssen die Funktionen angeführt werden?
+--> Können unter <script setup> angeführt werden. Input und Output Variablen müssen mit ref() oder Computed() angeführt werden.
+--> Sie können aber auch mit export default unter methodes angeführt werden.
+Müssen alle globalen Variablen unter data() angeführt werden oder nur die,
+die eine 2-Wege-Bindung benötigen?
+--> Nur wenn export default benutzt wird und nur für variablen die eine 2-Wege-Binding benötigen.
+Wenn <script setup> funktioniert export default nicht. und wenn "setup" weggelassen wird funktioniert die v-for Ausgabe nicht, warum?
+
+
+Programmablauf:
+------------------------------
+convertNumberToString -> makeGroups -> convertGroupsToWords
+-> convertSubGroup -> printWordcollection
+
+
+Cleanup:
+------------------------------
+- Variablen und Funktionen in eine andere Datei auslagern.
+- convertSubGroup Code übersichtlicher machen und in weitere Funktionen auslagern.
+- Auch die andere Funktionen überprüfen und ggf. verkleinern und auslagern.
+- "Dirty Fix" beheben.
+
+
+Zusatzfunktionen:
+------------------------------
+- Alle Ergebnisse Löschen
+- Ausgangszahl neben Ergebnis anzeigen
